@@ -1,6 +1,6 @@
 import HederaAgentKit from "../src/agent";
 import { createHederaTools } from "../src";
-import { ChatOpenAI } from "@langchain/openai";
+import { ChatGroq } from "@langchain/groq";
 import { MemorySaver } from "@langchain/langgraph";
 import { createReactAgent } from "@langchain/langgraph/prebuilt";
 import { HumanMessage } from "@langchain/core/messages";
@@ -12,7 +12,7 @@ dotenv.config();
 function validateEnvironment(): void {
   const missingVars: string[] = [];
   // You can tweak these as needed
-  const requiredVars = ["OPENAI_API_KEY", "HEDERA_ACCOUNT_ID", "HEDERA_PRIVATE_KEY"];
+  const requiredVars = ["GROQ_API_KEY", "HEDERA_ACCOUNT_ID", "HEDERA_PRIVATE_KEY"];
 
   requiredVars.forEach((varName) => {
     if (!process.env[varName]) {
@@ -33,8 +33,8 @@ validateEnvironment();
 
 async function initializeAgent() {
   try {
-    const llm = new ChatOpenAI({
-      modelName: "gpt-4",
+    const llm = new ChatGroq({
+      model: "llama-3.3-70b-versatile",
       temperature: 0.7,
     });
 

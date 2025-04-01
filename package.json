@@ -19,8 +19,9 @@
     "vitest": "^3.0.7"
   },
   "dependencies": {
-    "@hashgraph/sdk": "^2.56.0",
-    "@langchain/core": "^0.3.26",
+    "@hashgraph/sdk": "^2.61.0",
+    "@langchain/core": "^0.3.43",
+    "@langchain/groq": "^0.2.0",
     "@langchain/langgraph": "^0.2.34",
     "@langchain/openai": "^0.3.16",
     "bignumber.js": "^9.1.2",
