@@ -1,112 +1,116 @@
 # HederaSwap AI
 
-Welcome to the **Hedera Agent Kit**! This project aims to provide a LangChain-compatible toolkit for interacting with the Hedera Network. The focus is on a minimal, easy-to-use set of functions, while staying flexible for future enhancements.
 
-## Overview
+HederaSwap AI is an autonomous token swap and asset management solution built on Hedera's fast, eco-friendly blockchain. It leverages the **Hedera Agent Kit** for seamless interaction with Hedera Token Service (HTS) and Consensus Service (HCS), and integrates **SaucerSwap** for efficient token swaps using EVM-compatible smart contracts. Designed to simplify decentralized finance, HederaSwap AI automates portfolio management, token swaps, and transaction logging with speed, transparency, and affordability.
 
-- **Agent Interaction**: Make on-chain calls to Hedera (e.g., create tokens, post messages to consensus).
-- **Lightweight**: Designed to get you started quickly with a minimal set of features.
-- **Community-Driven**: We encourage developers of all skill levels to contribute.
+---
 
-## Current Features
+## **Features**
+- **Autonomous Token Swaps**: Automatically execute token swaps based on user-defined rules.
+- **Portfolio Rebalancing**: Manage digital assets with AI-driven decision-making.
+- **Hybrid Tokenization**: Combine HTS efficiency with EVM smart contract flexibility.
+- **Transparent Logging**: Record every transaction on Hedera Consensus Service (HCS) for auditability.
+- **Low Fees & Fast Finality**: Enjoy sub-penny transaction costs and 3-5 second finality.
 
-1. **Native Hedera Token Service (HTS)**:
-    - Create fungible tokens with minimal parameters (name, symbol, decimals, supply, etc.).
-    - Mint additional tokens to existing token accounts.
+---
 
-2. **Token Operations**:
-    - **Create Fungible Tokens (FT)**: Easily create and configure new fungible tokens.
-    - **Transfer Tokens**: Transfer tokens between accounts.
-    - **Associate / Dissociate Tokens**: Associate a token to an account or dissociate it as needed.
-    - **Reject Tokens**: Reject a token from an account.
+## **Quick Start**
 
-3. **HBAR Transactions**:
-    - Transfer HBAR between accounts.
-
-4. **Airdrop Management**:
-    - Airdrop tokens to multiple recipients.
-    - Claim a pending airdrop.
-
-5. **Token Balance Queries**:
-    - Get HBAR balances of an account.
-    - Get HTS token balances for a specific token ID.
-    - Retrieve all token balances for an account.
-    - Get token holders for a specific token.
-
-6. **Topic Management (HCS)**:
-    - **Create Topics**: Create new topics for Hedera Consensus Service (HCS).
-    - **Delete Topics**: Delete an existing topic.
-    - **Submit Topic Messages**: Send messages to a specific topic.
-    - **Get Topic Info**: Retrieve information about a specific topic.
-    - **Get Topic Messages**: Fetch messages from a specific topic.
-
-7. **Upcoming Features** (Roadmap):
-    - Create NFTs.
-    - Simple token swapping on DEXs.
-
-### Note
-The methods in the HederaAgentKit class are fully implemented and functional for interacting with the Hedera network (e.g., creating tokens, transferring assets, managing airdrops). However, Langchain tools for most of these methods and operations are not implemented by default.
-
-### Details
-For further details check [HederaAgentKit Readme](./src/agent/README.md).
-
-## Getting Started
-
+### **Install the Package**
 ```bash
-npm i hedera-agent-kit
+git clone https://github.com/your-repo/hederaswap-ai.git
+cd hederaswap-ai
+npm install
 ```
 
-LangChain/ LangGraph quick start:
+### **Example Usage**
+```javascript
+import { HederaAgentKit } from 'hedera-agent-kit';
+import { ethers } from 'ethers';
 
-```js
-import { HederaAgentKit, createHederaTools } from 'hedera-agent-kit';
-import { ToolNode } from '@langchain/langgraph/prebuilt';
-
+// Initialize Hedera Agent Kit
 const hederaAgentKit = new HederaAgentKit(
   '0.0.12345', // Replace with your account ID
   '0x.......', // Replace with your private key
   'testnet',   // Replace with your selected network
 );
-const hederaAgentKitTools = createHederaTools(hederaAgentKit);
-const toolsNode = new ToolNode(tools);
 
+// Example: Token Swap Logic using SaucerSwap
+async function executeTokenSwap(tokenIn, tokenOut, amount) {
+  const provider = new ethers.providers.JsonRpcProvider('https://testnet.hashio.io/api');
+  const signer = new ethers.Wallet('0x.......', provider);
+
+  const saucerSwapContract = new ethers.Contract(
+    '0xSaucerSwapAddress', // Replace with SaucerSwap contract address
+    ['function swap(address tokenIn, address tokenOut, uint256 amount) public'], // ABI snippet
+    signer,
+  );
+
+  const tx = await saucerSwapContract.swap(tokenIn, tokenOut, amount);
+  console.log(`Token swap executed: ${tx.hash}`);
+}
 ```
-- `hederaAgentKitTools` is an array of `Tool` instances
-  (from `@langchain/core/tools`).
-- `toolsNode` can be used in any LangGraph workflow,
-  for example `workflow.addNode('toolsNode', toolsNode)`.
 
-## Local development
+---
 
-1. **Clone** the repo:
+## **Local Development**
 
-```bash
-git clone https://github.com/hedera-dev/hedera-agent-kit.git
-```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/hederaswap-ai.git
+   ```
 
 2. Install dependencies:
+   ```bash
+   cd hederaswap-ai
+   npm install
+   ```
 
-```bash
-cd hedera-agent-kit
-npm install
-```
+3. Configure environment variables in a `.env` file:
+   ```env
+   HEDERA_ACCOUNT_ID=0.0.12345
+   HEDERA_PRIVATE_KEY=302e...
+   HEDERA_NETWORK=testnet
+   ```
 
-3. Configure environment variables (e.g., `OPENAI_API_KEY`, `HEDERA_ACCOUNT_ID`, `HEDERA_PRIVATE_KEY`) in a `.env` file.
+4. Test the project:
+   ```bash
+   npm run test
+   ```
 
-4. Test the kit:
+---
 
-```bash
- npm run test
-```
+## **How It Works**
 
-## Contributing
+1. **AI Agents**: Monitor market conditions and trigger token swaps or portfolio rebalancing.
+2. **Hedera Agent Kit**: Interact with HTS for token creation, transfers, and balance queries.
+3. **SaucerSwap Integration**: Execute EVM-based swaps using SaucerSwap’s AMM pools.
+4. **Consensus Logging**: Record all transactions on HCS for transparency.
 
-We welcome contributions! Please see our [CONTRIBUTING.md](https://github.com/hedera-dev/hedera-agent-kit/blob/main/CONTRIBUTING.md) for details on our process, how to get started, and how to sign your commits under the DCO.
+---
 
-## Roadmap
+## **Roadmap**
+- **Phase 1**: Core functionality for HTS-based token swaps and portfolio rebalancing.
+- **Phase 2**: Advanced AI-driven strategies for dynamic asset allocation.
+- **Phase 3**: Cross-chain interoperability via bridges like LiFi.
+- **Phase 4**: Integration with institutional-grade compliance tools.
 
-For details on upcoming features, check out our [ROADMAP.md](https://github.com/hedera-dev/hedera-agent-kit/blob/main/ROADMAP.md). If you’d like to tackle one of the tasks, look at the open issues on GitHub or create a new one if you don’t see what you’re looking for.
+For more details, check out our [ROADMAP.md](https://github.com/your-repo/hederaswap-ai/blob/main/ROADMAP.md).
 
-## License
+---
 
-Apache 2.0
+## **Contributing**
+We welcome contributions! Please see our [CONTRIBUTING.md](https://github.com/your-repo/hederaswap-ai/blob/main/CONTRIBUTING.md) for details on how to get started.
+
+---
+
+## **License**
+This project is licensed under the Apache 2.0 License - see the [LICENSE](https://github.com/your-repo/hederaswap-ai/blob/main/LICENSE) file for details.
+
+---
+
+### **Contact**
+For questions or support, please reach out to us via [GitHub Issues](https://github.com/your-repo/hederaswap-ai/issues).
+
+---
+Answer from Perplexity: pplx.ai/share
