@@ -111,6 +111,3 @@ This project is licensed under the Apache 2.0 License - see the [LICENSE](https:
 
 ### **Contact**
 For questions or support, please reach out to us via [GitHub Issues](https://github.com/your-repo/hederaswap-ai/issues).
-
----
-Answer from Perplexity: pplx.ai/share
