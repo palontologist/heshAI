@@ -1,4 +1,4 @@
-# Hedera Agent Kit
+# HederaSwap AI
 
 Welcome to the **Hedera Agent Kit**! This project aims to provide a LangChain-compatible toolkit for interacting with the Hedera Network. The focus is on a minimal, easy-to-use set of functions, while staying flexible for future enhancements.
 
